@@ -15,4 +15,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - run: date
-  
+  lastos:
+    runs-on: ubuntu
+    steps:
+    - run: date
