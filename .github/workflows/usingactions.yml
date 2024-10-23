@@ -1,0 +1,14 @@
+name: Using Actions
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out this code - which means to bring the code to the repo
+        uses: actions/checkout@v2
+
+      - name: Python Syntax Checker
+        users: cclauss/Find-Python-syntax-error-action@v0.2.0
