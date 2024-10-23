@@ -15,8 +15,3 @@ jobs:
     runs-on: macos-latest
     steps:
     - run: date
-  lastos:
-    needs: [ubuntu, windows, macos]
-    runs-on: ubuntu
-    steps:
-    - run: date
