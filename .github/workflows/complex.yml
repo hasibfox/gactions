@@ -17,6 +17,7 @@ jobs:
     - run: date
   testos:
     runs-on: ubuntu-latest
-    needs: [windows]
+    needs: [windows, ubuntu, macos]
     steps:
     - run: echo "this is working!"
+    - run: echo "let's try making it depending on all three :)"
