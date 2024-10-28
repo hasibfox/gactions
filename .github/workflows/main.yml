@@ -4,7 +4,7 @@ on: [push]
  
 jobs:
     hello-world:
-        runs-on: ubuntu-latest
+        runs-on: linux
         steps:
         # checkout the repo
         - name: 'Checkout GitHub Action'
