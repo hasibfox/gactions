@@ -1,0 +1,57 @@
+name: Github Actions File
+
+
+env: 
+    FAVORITE_FRUIT: "Snake Fruit"
+    COMMON_CATCHPHRASES: "We did it!"
+
+on: 
+    pull_request:
+        types: [opened, reopened]
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: actions/setup-python@v1
+              with:
+                python-version: 3.8
+
+            - name: Use Flake8 and Pylint 
+              run: |
+                pip install -r requirements.txt
+                flake8 --ignore=E501,E231 *.py tests/*.py
+                pylint --errors-only --disable=C0301 --disable=C0326 *.py tests/*.py
+
+
+
+            - name: Conduct Unit Test
+              run: |
+                python -m unittest --verbose --failfast
+                echo ${{env.COMMON_CATCHPHRASES}} now we can have 20 ${{env.FAVORITE_FRUIT}}s ${{secrets.TEST_PASSWORD}}
+            
+            - name:
+              uses: actions/upload_artifact@v2
+              with:
+                name: ${{env.COMMON_CATCHPHRASES}}
+                path: .
+
+    merge:
+        if: github.actor == 'hasibfox' || github.actor == 'mhasibkpmg'
+        needs: [lint]
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: hmarr/auto-approve-action@v2.0.0
+              with:
+                github-token: ${{ secrets.GITHUB_TOKEN}}
+            - uses: managedkaos/merge-pull-request@v1.2
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+            
+            - name: Testing an Upload Also in Merge Branch 
+              uses: actions/upload_artifact@v2
+              with:
+                name: ${{env.FAVORITE_FRUIT}}
+                path: .
